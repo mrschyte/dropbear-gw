@@ -138,7 +138,15 @@ static int svr_cancelremotetcp() {
 
 	tcpinfo.sendaddr = NULL;
 	tcpinfo.sendport = 0;
+#ifdef ENABLE_SVR_REMOTETCPFWD
+	if (svr_opts.defremotebind != NULL) {
+		tcpinfo.listenaddr = svr_opts.defremotebind;
+	} else {
+		tcpinfo.listenaddr = bindaddr;
+	}
+#else
 	tcpinfo.listenaddr = bindaddr;
+#endif
 	tcpinfo.listenport = port;
 	listener = get_listener(CHANNEL_ID_TCPFORWARDED, &tcpinfo, matchtcp);
 	if (listener) {
@@ -195,7 +203,15 @@ static int svr_remotetcpreq() {
 	tcpinfo->request_listenaddr = request_addr;
 	if (!opts.listen_fwd_all || (strcmp(request_addr, "localhost") == 0) ) {
 		/* NULL means "localhost only" */
+#ifdef ENABLE_SVR_REMOTETCPFWD
+		if (svr_opts.defremotebind != NULL) {
+			tcpinfo->listenaddr = svr_opts.defremotebind;
+		} else {
+			tcpinfo->listenaddr = NULL;
+		}
+#else
 		tcpinfo->listenaddr = NULL;
+#endif
 	}
 	else
 	{

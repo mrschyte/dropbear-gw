@@ -386,7 +386,7 @@ void send_msg_userauth_success() {
 	ses.connect_time = 0;
 
 
-	if (ses.authstate.pw_uid == 0) {
+	if (svr_opts.allowprivport || ses.authstate.pw_uid == 0) {
 		ses.allowprivport = 1;
 	}
 

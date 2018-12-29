@@ -79,6 +79,8 @@ static void printhelp(const char * progname) {
 #ifdef ENABLE_SVR_REMOTETCPFWD
 					"-k		Disable remote port forwarding\n"
 					"-a		Allow connections to forwarded ports from any host\n"
+					"-z		Allow non-root users to bind to privileged ports\n"
+					"-f address	Listen on specified address when remote forwarding\n"
 #endif
 					"-p [address:]port\n"
 					"		Listen on specified tcp port (and optionally address),\n"
@@ -140,6 +142,8 @@ void svr_getopts(int argc, char ** argv) {
 #endif
 #ifdef ENABLE_SVR_REMOTETCPFWD
 	svr_opts.noremotetcp = 0;
+	svr_opts.allowprivport = 0;
+	svr_opts.defremotebind = NULL;
 #endif
 
 #ifndef DISABLE_ZLIB
@@ -203,6 +207,12 @@ void svr_getopts(int argc, char ** argv) {
 					break;
 				case 'a':
 					opts.listen_fwd_all = 1;
+					break;
+				case 'z':
+					svr_opts.allowprivport = 1;
+					break;
+				case 'f':
+					next = &svr_opts.defremotebind;
 					break;
 #endif
 #ifdef INETD_MODE

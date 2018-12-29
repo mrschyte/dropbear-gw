@@ -96,9 +96,11 @@ typedef struct svr_runopts {
 	int noauthpass;
 	int norootpass;
 	int allowblankpass;
+	int allowprivport;
 
 #ifdef ENABLE_SVR_REMOTETCPFWD
 	int noremotetcp;
+	char * defremotebind;
 #endif
 #ifdef ENABLE_SVR_LOCALTCPFWD
 	int nolocaltcp;
@@ -113,6 +115,7 @@ typedef struct svr_runopts {
 
 	buffer * banner;
 	char * pidfile;
+
 
 } svr_runopts;
 
