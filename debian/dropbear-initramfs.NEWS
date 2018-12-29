@@ -1,0 +1,17 @@
+dropbear-initramfs (2016.73-1) unstable; urgency=low
+
+    Host keys (resp. authorized_keys) are now taken from
+    /etc/dropbear-initramfs instead of /etc/initramfs-tools/etc/dropbear
+    (resp.  /etc/initramfs-tools/root/.ssh).
+    These files are automatically moved on upgrade.
+
+    The initramfs boot script configuration options are now taken from
+    /etc/dropbear-initramfs/config.  For backward compatibility, setting
+    dropbear options in /etc/initramfs-tools/initramfs.conf is still supported
+    for now (but sourcing this file causes the hook to print a warning).
+
+    These changes were applied following the initramfs-tools maintainers'
+    request (see #807527) that hook and boot script configuration files be
+    stored outside the /etc/initramfs-tools directory.
+
+ -- Guilhem Moulin <guilhem@guilhem.org>  Wed, 13 Apr 2016 19:00:06 +0200
